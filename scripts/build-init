@@ -62,7 +62,6 @@ cd ./ipts-pkg || { echo "Failed to make iptsd"; exit 1; }
 mkdir -p ./usr/lib64 || { echo "Failed to make iptsd"; exit 1; }
 cp /usr/local/lib64/libstdc++.so.6 ./usr/lib64/ || { echo "Failed to make iptsd"; exit 1; }
 find .
-cp /usr/local/lib64/libfmt.so.7 ./usr/lib64/ || { echo "Failed to make iptsd"; exit 1; }
 tar zcvf ../rootc/packages/ipts.tar.gz * --owner=0 --group=0 || { echo "Failed to make iptsd"; exit 1; }
 cd .. || { echo "Failed to make iptsd"; exit 1; }
 rm -rf ./ipts-pkg || { echo "Failed to make iptsd"; exit 1; }
