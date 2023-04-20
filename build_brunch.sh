@@ -64,8 +64,6 @@ cp -r ./brunch-patches ./chroot/home/chronos/rootc/patches || { echo "Failed to 
 chmod -R 0755 ./chroot/home/chronos/rootc/patches || { echo "Failed to change patches directory permissions"; exit 1; }
 chown -R 1000:1000 ./chroot/home/chronos/rootc || { echo "Failed to fix rootc directory ownership"; exit 1; }
 
-cp /usr/lib/x86_64-linux-gnu/libfmt.so.* ./chroot/usr/local/lib64/libfmt.so.7 || { echo "Failed to copy libfmt"; exit 1; }
-
 mount --bind ./out ./chroot/out || { echo "Failed to bind mount output directory in chroot"; exit 1; }
 mount -t proc none ./chroot/proc || { echo "Failed to mount proc directory in chroot"; exit 1; }
 mount -t sysfs none ./chroot/sys || { echo "Failed to mount sys directory in chroot"; exit 1; }
