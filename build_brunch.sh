@@ -71,37 +71,6 @@ cp -r ./brunch-patches ./chroot/home/chronos/rootc/patches || { echo "Failed to 
 chmod -R 0755 ./chroot/home/chronos/rootc/patches || { echo "Failed to change patches directory permissions"; exit 1; }
 chown -R 1000:1000 ./chroot/home/chronos/rootc || { echo "Failed to fix rootc directory ownership"; exit 1; }
 
-cd ./chroot/home/chronos || { echo "Failed to switch to chronos directory"; exit 1; }
-cp -r ../../../alsa-ucm-conf ./ || { echo "Failed to copy ucm configuration"; exit 1; }
-cd ./alsa-ucm-conf || { echo "Failed to switch to ucm configuration directory"; exit 1; }
-tar zcf ../rootc/packages/alsa-ucm-conf.tar.gz * --owner=0 --group=0 || { echo "Failed to create ucm configuration archive"; exit 1; }
-cd .. || { echo "Failed to cleanup ucm configuration directory"; exit 1; }
-rm -r ./alsa-ucm-conf || { echo "Failed to cleanup ucm configuration directory"; exit 1; }
-
-git clone --depth=1 -b main https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git || { echo "Failed to clone the linux firmware git"; exit 1; }
-cd ./linux-firmware || { echo "Failed to enter the linux firmware directory"; exit 1; }
-make -j"$NTHREADS" DESTDIR=./tmp FIRMWAREDIR=/lib/firmware install || { echo "Failed to install firmwares in temporary directory"; exit 1; }
-mv ./tmp/lib/firmware ./out || { echo "Failed to move the firmwares temporary directory"; exit 1; }
-rm -rf ./out/bnx2x
-rm -rf ./out/dpaa2
-rm -rf ./out/liquidio
-rm -rf ./out/mellanox
-rm -rf ./out/mrvl/prestera
-rm -rf ./out/netronome
-rm -rf ./out/qcom
-rm -rf ./out/qed
-rm -rf ./out/ti-connectivity
-curl -L https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git/plain/regulatory.db -o ./out/regulatory.db || { echo "Failed to download the regulatory db"; exit 1; }
-curl -L https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git/plain/regulatory.db.p7s -o ./out/regulatory.db.p7s || { echo "Failed to download the regulatory db"; exit 1; }
-cp -r ../../../../extra-firmwares/* ./out/ || { echo "Failed to copy brunch extra firmware files"; exit 1; }
-mkdir -p ../rootc/lib/firmware || { echo "Failed to make firmware directory"; exit 1; }
-mv ./out/amd-ucode.img ./out/intel-ucode.img ../rootc/lib/firmware/ || { echo "Failed to copy intel / amd ucode"; exit 1; }
-cd ./out || { echo "Failed to enter the final firmware directory"; exit 1; }
-tar zcf ../../rootc/packages/firmwares.tar.gz * --owner=0 --group=0 || { echo "Failed to create the firmwares archive"; exit 1; }
-cd ../.. || { echo "Failed to cleanup firmwares directory"; exit 1; }
-rm -r ./linux-firmware || { echo "Failed to cleanup firmwares directory"; exit 1; }
-cd ../../.. || { echo "Failed to cleanup firmwares directory"; exit 1; }
-
 mount --bind ./out ./chroot/out || { echo "Failed to bind mount output directory in chroot"; exit 1; }
 mount -t proc none ./chroot/proc || { echo "Failed to mount proc directory in chroot"; exit 1; }
 mount -t sysfs none ./chroot/sys || { echo "Failed to mount sys directory in chroot"; exit 1; }
