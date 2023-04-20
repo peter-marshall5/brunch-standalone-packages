@@ -43,6 +43,14 @@ rm -rf ./version-pkg || { echo "Failed to make the brunch version package"; exit
 mkdir -p ./initramfs/{bin,lib64,sbin} || { echo "Failed to make initramfs directories"; exit 1; }
 mkdir -p ./binaries-pkg/usr/bin ./binaries-pkg/usr/sbin || { echo "Failed to make binaries package directories"; exit 1; }
 
+git clone https://github.com/fmtlib/fmt --depth 1
+mkdir -p fmt/build
+cd fmt/build
+cmake -DBUILD_SHARED_LIBS=TRUE ..
+make -j"$NTHREADS"
+make install
+cd ../..
+
 git clone https://github.com/linux-surface/iptsd.git iptsd || { echo "Failed to make iptsd"; exit 1; }
 cd iptsd || { echo "Failed to make iptsd"; exit 1; }
 #sed -i "/'-ffast-math',/d" ./src/meson.build
