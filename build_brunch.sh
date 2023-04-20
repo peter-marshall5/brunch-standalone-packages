@@ -43,7 +43,6 @@ else
 fi
 
 mkdir -p ./chroot/home/chronos/image/tmp || { echo "Failed to create image directory"; exit 1; }
-cp -r ./efi-partition ./chroot/home/chronos/image/ || { echo "Failed to copy the efi partition directory"; exit 1; }
 chown -R 1000:1000 ./chroot/home/chronos/image || { echo "Failed to fix image directory ownership"; exit 1; }
 
 chmod 0777 ./chroot/home/chronos || { echo "Failed to fix chronos directory permissions"; exit 1; }
