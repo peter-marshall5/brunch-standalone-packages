@@ -28,6 +28,7 @@ curl -L https://github.com/sebanc/brunch-toolchain/releases/download/20210529/br
 fi
 tar zxf brunch_toolchain.tar.gz -C /usr/local || { echo "Failed to extract the brunch toolchain"; exit 1; }
 sudo rm -f /usr/lib64/libc.so /usr/lib64/libm.so /usr/lib64/libpthread.so
+ldconfig
 
 # Temporary fixes
 if [ ! -f /lib64/libnsl.so.2 ]; then sudo ln -s libnsl.so.1 /lib64/libnsl.so.2; fi
