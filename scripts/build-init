@@ -278,7 +278,7 @@ sudo umount ./tmp || { echo "Failed to umount rootc image"; exit 1; }
 cd ..
 
 cd ./brunch
-tar zcf /out/brunch_"$version"_"$(date +"%Y%m%d")".tar.gz * --owner=0 --group=0 || { echo "Failed to create brunch archive"; exit 1; }
+tar zcf /out/brunch_"$version"_"$(date +"%Y%m%d_%R")".tar.gz * --owner=0 --group=0 || { echo "Failed to create brunch archive"; exit 1; }
 cd ..
 
 echo "End of chroot"
