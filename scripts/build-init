@@ -23,12 +23,14 @@ echo "Entered chroot with recovery version $version"
 
 sudo chown 1000:1000 /usr/local || { echo "Failed to change ownership of /usr/local"; exit 1; }
 
+# curl from Brunch toolchain seems to be broken
+curl -L https://github.com/fmtlib/fmt/archive/9.1.0.tar.gz -o fmt.tar.gz
+
 if [ ! -f brunch_toolchain.tar.gz ]; then
 curl -L https://github.com/sebanc/brunch-toolchain/releases/download/20210529/brunch_toolchain_20210529.tar.gz -o brunch_toolchain.tar.gz || { echo "Failed to download the brunch toolchain"; exit 1; }
 fi
 tar zxf brunch_toolchain.tar.gz -C /usr/local || { echo "Failed to extract the brunch toolchain"; exit 1; }
 sudo rm -f /usr/lib64/libc.so /usr/lib64/libm.so /usr/lib64/libpthread.so
-ldconfig
 
 # Temporary fixes
 if [ ! -f /lib64/libnsl.so.2 ]; then sudo ln -s libnsl.so.1 /lib64/libnsl.so.2; fi
@@ -44,7 +46,6 @@ rm -rf ./version-pkg || { echo "Failed to make the brunch version package"; exit
 mkdir -p ./initramfs/{bin,lib64,sbin} || { echo "Failed to make initramfs directories"; exit 1; }
 mkdir -p ./binaries-pkg/usr/bin ./binaries-pkg/usr/sbin || { echo "Failed to make binaries package directories"; exit 1; }
 
-curl -L https://github.com/fmtlib/fmt/archive/9.1.0.tar.gz -o fmt.tar.gz
 tar zxf fmt.tar.gz
 cd fmt-9.1.0
 mkdir build
