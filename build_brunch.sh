@@ -2,10 +2,6 @@
 
 if [ ! -d /home/runner/work ]; then NTHREADS=$(nproc); else NTHREADS=$(($(nproc)*4)); fi
 
-kernels=$(ls -d ./kernels/* | sed 's#./kernels/##g')
-for kernel in $kernels; do
-	if [ ! -f "./kernels/$kernel/out/arch/x86/boot/bzImage" ]; then echo "The kernel $kernel has to be built first"; exit 1; fi
-done
 if ( ! test -z {,} ); then echo "Must be ran with \"sudo bash\""; exit 1; fi
 if [ $(whoami) != "root" ]; then echo "Please run with sudo"; exit 1; fi
 
@@ -63,9 +59,6 @@ chmod 0755 ./chroot/home/chronos/initramfs/init || { echo "Failed to change init
 chown -R 1000:1000 ./chroot/home/chronos/initramfs || { echo "Failed to fix initramfs directory ownership"; exit 1; }
 
 mkdir ./chroot/home/chronos/rootc || { echo "Failed to create rootc directory"; exit 1; }
-ln -s kernel-5.15 ./chroot/home/chronos/rootc/kernel || { echo "Failed to make the default kernel symlink"; exit 1; }
-ln -s kernel-chromebook-5.15 ./chroot/home/chronos/rootc/kernel-macbook || { echo "Failed to make the macbook kernel symlink"; exit 1; }
-ln -s kernel-chromebook-5.15 ./chroot/home/chronos/rootc/kernel-macbook-t2 || { echo "Failed to make the macbook kernel symlink"; exit 1; }
 cp -r ./packages ./chroot/home/chronos/rootc/ || { echo "Failed to copy brunch packages"; exit 1; }
 cp -r ./brunch-patches ./chroot/home/chronos/rootc/patches || { echo "Failed to copy brunch patches"; exit 1; }
 chmod -R 0755 ./chroot/home/chronos/rootc/patches || { echo "Failed to change patches directory permissions"; exit 1; }
