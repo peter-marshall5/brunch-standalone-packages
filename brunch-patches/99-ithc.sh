@@ -19,7 +19,7 @@ script
 end script
 ITHC
 	if [ ! "$?" -eq 0 ]; then ret=$((ret + (2 ** 0))); fi
-	tar zxf /rootc/packages/ithc.tar.gz -C /roota
+	tar zxf /rootc/packages/ipts.tar.gz -C /roota
 	if [ ! "$?" -eq 0 ]; then ret=$((ret + (2 ** 1))); fi
 fi
 exit $ret
