@@ -275,7 +275,7 @@ if sudo tune2fs -l ../brunch/rootc.img | grep 'Filesystem features' | grep -q -w
 sudo mount ../brunch/rootc.img ./tmp || { echo "Failed to mount rootc image"; exit 1; }
 sudo cp -r ../rootc/* ./tmp/ || { echo "Failed to copy files to rootc image"; exit 1; }
 sudo umount ./tmp || { echo "Failed to umount rootc image"; exit 1; }
-d ..
+cd ..
 
 cd ./brunch
 tar zcf /out/brunch_"$version"_"$(date +"%Y%m%d")".tar.gz * --owner=0 --group=0 || { echo "Failed to create brunch archive"; exit 1; }
